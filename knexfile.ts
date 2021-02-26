@@ -1,15 +1,17 @@
 import env from "./server/env";
 
+import pg from 'pg';
+
+pg.defaults.ssl = {
+      rejectUnauthorized: false,
+}
+
 module.exports = {
   production: {
     client: "postgresql",
-    connection: {
-      host: env.DB_HOST,
-      database: env.DB_NAME,
-      user: env.DB_USER,
-      port: env.DB_PORT,
-      password: env.DB_PASSWORD,
-      ssl: env.DB_SSL,
+    connection: `${env.DATABASE_URL}?ssl=true`,
+    ssl: {
+      rejectUnauthorized: false
     },
     migrations: {
       tableName: "knex_migrations",
